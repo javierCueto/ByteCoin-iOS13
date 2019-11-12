@@ -9,7 +9,7 @@
 import Foundation
 
 protocol CoinManagerDelegate{
-    func didUpdateBitCoin(_ coinManager: CoinManager, lastCoin: Double)
+    func didUpdateBitCoin(_ coinManager: CoinManager, lastCoin: Double,_ currency: String)
     func didFailWithError(error: Error)
 }
 
@@ -21,12 +21,12 @@ struct CoinManager {
     func getCoinPrince(for currency: String){
         let urlString = "\(baseURL)\(currency)"
         print(urlString)
-        performRequest(with : urlString)
+        performRequest(with : urlString,currency)
     }
     
     
     
-    func performRequest(with urlString : String){
+    func performRequest(with urlString : String,_ currency: String){
         print("Esta realizando una busqueda...")
         let urlStringParsed = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         if let url = URL(string: urlStringParsed!){
@@ -48,7 +48,7 @@ struct CoinManager {
                     if let lastCoin = self.parseJSON(safeData) {
                         //print("regresa los datos")
                         // this line call a delegated method, this method is in the controller
-                        self.delegate?.didUpdateBitCoin(self, lastCoin: lastCoin)
+                        self.delegate?.didUpdateBitCoin(self, lastCoin: lastCoin, currency)
                     }
                 }
                 

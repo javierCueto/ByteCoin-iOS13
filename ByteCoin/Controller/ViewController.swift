@@ -37,8 +37,6 @@ class ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDeleg
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selectedCurrency = coinManager.currencyArray[row]
-    
-        currencyLabel.text = selectedCurrency
         coinManager.getCoinPrince(for: selectedCurrency)
     }
 
@@ -47,10 +45,10 @@ class ViewController: UIViewController,UIPickerViewDataSource, UIPickerViewDeleg
 
 //MARK: - CoinManager
 extension ViewController: CoinManagerDelegate {
-    func didUpdateBitCoin(_ coinManager: CoinManager, lastCoin: Double) {
+    func didUpdateBitCoin(_ coinManager: CoinManager, lastCoin: Double,_ currency : String) {
         DispatchQueue.main.async {
             self.bitcoinLabel.text = String(format: "%.2f",lastCoin )
-            
+            self.currencyLabel.text = currency
         }
     }
     
